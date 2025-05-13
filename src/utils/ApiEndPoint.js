@@ -1,1 +1,1 @@
-export const ApiEndPoint = "http://localhost:5000/api/";
+export const ApiEndPoint = "https://social-app-back-end-kg37.vercel.app/api/";
