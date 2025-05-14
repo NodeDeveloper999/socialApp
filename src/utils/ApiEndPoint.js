@@ -1,1 +1,1 @@
-export const ApiEndPoint = "https://socail-media-backend.vercel.app/api/";
+export const ApiEndPoint = "https://socail-media-backend-gvcu.vercel.app/api/";
