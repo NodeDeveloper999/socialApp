@@ -16,7 +16,6 @@ const Feed = () => {
     const fetchPosts = async () => {
         setLoading(true);
 
-        // Wait for 3 seconds
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         try {
@@ -73,11 +72,7 @@ const Feed = () => {
         setPosts(updated);
     };
 
-    // const handleLikeComment = (postIndex, commentIndex) => {
-    //     const updated = [...posts];
-    //     updated[postIndex].comments[commentIndex].likes += 1;
-    //     setPosts(updated);
-    // };
+   
 
     const handleAddComment = (postIndex, text) => {
         const updated = [...posts];
@@ -114,11 +109,10 @@ const Feed = () => {
                             post={post}
                             postIndex={idx}
                             onLikePost={handleLikePost}
-                            // onLikeComment={handleLikeComment}
                             onReplyToComment={handleReplyToComment}
                             setPosts={setPosts}
                             userId={token}
-                            fetchPosts={fetchPosts} // replace with actual user ID
+                            fetchPosts={fetchPosts}
                             onPostUpdate={handlePostUpdate}
                         />
 

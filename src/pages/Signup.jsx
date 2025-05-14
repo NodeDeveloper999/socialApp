@@ -27,13 +27,11 @@ const Signup = () => {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Validate file type
     if (!file.type.match('image.*')) {
       setError('Please select an image file (JPEG, PNG)');
       return;
     }
 
-    // Validate file size (e.g., 5MB max)
     if (file.size > 5 * 1024 * 1024) {
       setError('Image size should be less than 5MB');
       return;
@@ -52,7 +50,6 @@ const Signup = () => {
       formData.append('file', file);
       formData.append('upload_preset', CLOUDINARY_PRESET);
 
-      // Add timestamp for cache busting
       formData.append('timestamp', Date.now() / 1000 | 0);
 
       console.log('Uploading file:', file);
@@ -98,12 +95,10 @@ const Signup = () => {
     setUploading(true);
 
     try {
-      // Step 1: Upload image
       const imageUrl = await uploadImageToCloudinary(imageFile);
 
       console.log('imageUrl successful:', imageUrl);
       form.profilePicture = imageUrl
-      // Step 2: Submit form
       const response = await axios.post(`${ApiEndPoint}users/signup`, {
         ...form,
       });

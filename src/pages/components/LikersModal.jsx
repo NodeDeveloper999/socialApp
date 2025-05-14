@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import axios from 'axios';
 import { ApiEndPoint } from '../../utils/ApiEndPoint';
-import UserDetailModal from './UserDetailModal'; // Make sure this exists
+import UserDetailModal from './UserDetailModal'; 
 
 const LikersModal = ({ postId, onClose }) => {
     const [likers, setLikers] = useState([]);

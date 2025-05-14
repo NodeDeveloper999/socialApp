@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-// UserDetailsModal component (defined inside the same file)
 const UserDetailsModal = ({ user, onClose }) => {
   if (!user) return null;
 
@@ -29,7 +28,6 @@ const UserDetailsModal = ({ user, onClose }) => {
           </div>
           <p><strong>Username:</strong> {user.username || 'Unknown'}</p>
           <p><strong>Bio:</strong> {user?.bio}</p>
-          {/* Add more user details as needed */}
         </div>
       </div>
     </div>

@@ -33,7 +33,6 @@ const EditPostModal = ({ post, onClose, onPostUpdate }) => {
           value={caption}
           onChange={(e) => setCaption(e.target.value)}
         />
-        {/* Optional: Add UI to edit/remove/add images */}
         <div className="flex space-x-2 overflow-x-auto">
           {images.map((img, i) => (
             <img key={i} src={img} alt="img" className="w-16 h-16 object-cover rounded" />

@@ -28,18 +28,15 @@ const PostCard = ({ post, postIndex, userId, setPosts, fetchPosts, onPostUpdate 
    const handlePostLike = async () => {
     const wasLiked = isPostLiked;
 
-    // Optimistic update
     setPosts(prevPosts => {
         const updated = [...prevPosts];
         const postToUpdate = updated[postIndex];
 
         if (wasLiked) {
-            // Remove like (assumes likes is an array of ObjectIds or objects with _id)
             postToUpdate.likes = postToUpdate.likes.filter(like =>
                 typeof like === 'string' ? like !== userId : like._id !== userId
             );
         } else {
-            // Add like as a string (consistent format)
             postToUpdate.likes = [...(postToUpdate.likes || []), userId];
         }
 
@@ -52,7 +49,7 @@ const PostCard = ({ post, postIndex, userId, setPosts, fetchPosts, onPostUpdate 
             userId,
         });
 
-        // Ensure local state matches server response (especially if backend returns full like user objects)
+        
         setPosts(prevPosts => {
             const updated = [...prevPosts];
             updated[postIndex].likes = res.data.likes;
@@ -63,8 +60,7 @@ const PostCard = ({ post, postIndex, userId, setPosts, fetchPosts, onPostUpdate 
         console.error('Like error:', err);
         setErrorMessage(err.response?.data?.message || 'Failed to like post');
         
-        // Optionally revert on error
-        // fetchPosts();
+     
     }
 };
 
@@ -72,10 +68,8 @@ const PostCard = ({ post, postIndex, userId, setPosts, fetchPosts, onPostUpdate 
     const handleCommentSubmit = async () => {
         if (!newComment.trim()) return;
 
-        // Generate temporary ID for optimistic update
         const tempId = Date.now().toString();
 
-        // Optimistic update
         setPosts(prevPosts => {
             const updated = [...prevPosts];
             updated[postIndex].comments = [
@@ -83,7 +77,7 @@ const PostCard = ({ post, postIndex, userId, setPosts, fetchPosts, onPostUpdate 
                 {
                     _id: tempId,
                     text: newComment,
-                    user: { _id: userId }, // Minimal user data
+                    user: { _id: userId }, 
                     createdAt: new Date().toISOString(),
                     likes: [],
                     replies: []
@@ -101,7 +95,6 @@ const PostCard = ({ post, postIndex, userId, setPosts, fetchPosts, onPostUpdate 
                 text: newComment,
             });
 
-            // Replace the temporary comment with the real one from server
             setPosts(prevPosts => {
                 const updated = [...prevPosts];
                 const commentIndex = updated[postIndex].comments.findIndex(c => c._id === tempId);
@@ -114,7 +107,6 @@ const PostCard = ({ post, postIndex, userId, setPosts, fetchPosts, onPostUpdate 
             console.error('Comment error:', err);
             setErrorMessage(err.response?.data?.message || 'Failed to submit comment');
 
-            // Remove the optimistic comment on error
             setPosts(prevPosts => {
                 const updated = [...prevPosts];
                 updated[postIndex].comments = updated[postIndex].comments.filter(c => c._id !== tempId);
@@ -126,10 +118,8 @@ const PostCard = ({ post, postIndex, userId, setPosts, fetchPosts, onPostUpdate 
     const handleReplySubmit = async (postIdx, parentCommentId, text) => {
         if (!text.trim()) return;
 
-        // Generate temporary ID for optimistic update
         const tempId = Date.now().toString();
 
-        // Optimistic update
         setPosts(prevPosts => {
             const updated = [...prevPosts];
 
@@ -169,8 +159,6 @@ const PostCard = ({ post, postIndex, userId, setPosts, fetchPosts, onPostUpdate 
                 text,
                 parentComment: parentCommentId,
             });
-
-            // Replace the temporary reply with the real one from server
             setPosts(prevPosts => {
                 const updated = [...prevPosts];
 
@@ -196,7 +184,7 @@ const PostCard = ({ post, postIndex, userId, setPosts, fetchPosts, onPostUpdate 
             console.error('Reply error:', err);
             setErrorMessage(err.response?.data?.message || 'Failed to submit reply');
 
-            // Remove the optimistic reply on error
+            
             setPosts(prevPosts => {
                 const updated = [...prevPosts];
 
@@ -216,7 +204,6 @@ const PostCard = ({ post, postIndex, userId, setPosts, fetchPosts, onPostUpdate 
     };
 
     const onLikeComment = async (postIdx, commentId) => {
-    // Find the comment and check current like status
     let targetComment = null;
     const findComment = (comments) => {
         for (let comment of comments) {
@@ -236,7 +223,7 @@ const PostCard = ({ post, postIndex, userId, setPosts, fetchPosts, onPostUpdate 
 
     const isCurrentlyLiked = targetComment.likes?.includes(userId);
 
-    // Optimistic update
+   
     setPosts(prevPosts => {
         return prevPosts.map((p, idx) => {
             if (idx !== postIdx) return p;
@@ -244,7 +231,7 @@ const PostCard = ({ post, postIndex, userId, setPosts, fetchPosts, onPostUpdate 
             const updateCommentLikes = (comments) => {
                 return comments.map(comment => {
                     if (comment._id !== commentId) {
-                        // If not target comment, check replies
+                       
                         if (comment.replies?.length) {
                             return {
                                 ...comment,
@@ -254,13 +241,12 @@ const PostCard = ({ post, postIndex, userId, setPosts, fetchPosts, onPostUpdate 
                         return comment;
                     }
 
-                    // This is the target comment - update likes
                     if (isCurrentlyLiked) {
-                        // Remove like
+                      
                         const newLikes = (comment.likes || []).filter(like => like !== userId);
                         return { ...comment, likes: newLikes };
                     } else {
-                        // Add like
+                   
                         const newLikes = [...(comment.likes || []), userId];
                         return { ...comment, likes: newLikes };
                     }
@@ -285,18 +271,13 @@ const PostCard = ({ post, postIndex, userId, setPosts, fetchPosts, onPostUpdate 
         console.error('Like error:', err);
         setErrorMessage(err.response?.data?.message || 'Failed to like comment');
 
-        // Optionally revert
-        // fetchPosts();
+        
     }
 };
 
 
 
-    // const [isEditing, setIsEditing] = useState(false);
-    // const [editedCaption, setEditedCaption] = useState(post.caption || '');
-    // const handleEditClick = () => {
-    //     setIsEditing(true);
-    // };
+   
 
     const [showEditModal, setShowEditModal] = useState(false);
 
@@ -315,8 +296,7 @@ const PostCard = ({ post, postIndex, userId, setPosts, fetchPosts, onPostUpdate 
             setPosts((prevPosts) => prevPosts.filter(post => post._id !== delPostId));
 
 
-            // Optionally: remove from UI or refresh
-            // onPostDelete(post._id); // This function should be passed from parent
+           
         } catch (err) {
             console.error('Failed to delete post:', err);
             setErrorMessage('Error deleting post.');

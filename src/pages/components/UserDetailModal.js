@@ -1,4 +1,4 @@
-// UserDetailsModal.js
+
 import React from 'react';
 
 const UserDetailsModal = ({ user, onClose }) => {
@@ -16,7 +16,6 @@ const UserDetailsModal = ({ user, onClose }) => {
 
                 <div
                     key={user._id}
-                    // onClick={() => handleUserClick(user)}
                     className="flex justify-center space-x-3 cursor-pointer hover:bg-gray-100 p-1 rounded"
                 >
                     <img src={user.profilePicture} alt="profile" className="w-20 h-20 rounded-full object-cover" />
@@ -27,7 +26,6 @@ const UserDetailsModal = ({ user, onClose }) => {
                     <p><strong>Username:</strong> {user?.username}</p>
                     <p><strong>Email:</strong> {user?.email}</p>
                     <p><strong>Bio:</strong> {user?.bio}</p>
-                    {/* Add more user details as needed */}
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-// components/ErrorModal.jsx
+
 import React from 'react';
 
 const ErrorModal = ({ message, onClose }) => {

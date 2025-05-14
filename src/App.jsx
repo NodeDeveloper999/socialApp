@@ -8,7 +8,7 @@ import { Toaster } from 'react-hot-toast';
 function App() {
   return (
     <Router>
-      {/* Global toast handler */}
+    
       <Toaster
         position="top-right"
         toastOptions={{

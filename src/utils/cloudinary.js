@@ -1,4 +1,3 @@
-// utils/cloudinary.js
 import axios from 'axios';
 
 export const uploadImagesToCloudinary = async (files) => {
